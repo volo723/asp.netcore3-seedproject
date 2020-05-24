@@ -8,32 +8,12 @@
 
 <h1>Overview</h1>
 
-<h1>Category home page</h1>
-<form method="post">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Def.Code</th>
-                <th>Category Description</th>
-                <th>Edit/Delete</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var category in Model.Category)
-            {
-                <tr>
-                    <td>10fe</td>
-                    <td>Fire Fighting Equipment</td>
-                    <td>
-                        <a asp-page="./Edit" asp-route-id="category.CategoryID">Edit</a> |
-                        <button type="submit" asp-page-handler="delete"
-                                asp-route-id="category.CategoryID">
-                            delete
-                        </button>
-                    </td>
-                </tr>
-              }
-        </tbody>
-    </table>
-    <a asp-page="Create">Create New</a>
-</form>
+<div class="row">
+    <div class="col-sm-4">
+        @Html.Partial("_DisplayCategoryPartial");
+    </div>
+    <div class="col-sm-4">33.33%</div>
+    <div class="col-sm-4">33.33%</div>
+</div>
+
+@*<partial name="_DisplayCategoryPartial" model="@Model.Category"/>*@

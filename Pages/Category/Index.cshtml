@@ -1,0 +1,52 @@
+﻿@page
+@model Attendance.Pages.Category.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Category[0].CategoryCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category[0].CategoryDescription)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Category) {
+        <tr>
+            <td class="app-td">
+                @Html.DisplayFor(modelItem => item.CategoryCode)
+            </td>
+            <td class="app-td">
+                @Html.DisplayFor(modelItem => item.CategoryDescription)
+            </td>
+            <td class="app-td">
+                <a asp-page="./Edit" asp-route-id="@item.CategoryID">
+                    <i class="material-icons" style="font-size:20px;color:black">edit</i>
+                </a> |
+                <a asp-page="./Details" asp-route-id="@item.CategoryID" class="m-1">
+                    <i class='far fa-eye' style='font-size:20px;color:black'></i>
+                </a> |
+                <a asp-page="./Delete" asp-route-id="@item.CategoryID">
+                    <i class="material-icons" style="font-size:20px;color:black">delete_forever</i>
+                </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@*<a asp-page="Create">Create New</a>*@
+
+

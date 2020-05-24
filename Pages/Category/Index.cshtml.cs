@@ -4,21 +4,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Attendance.Models;
 using Microsoft.EntityFrameworkCore;
+using Attendance.Models;
 
-namespace Attendance.Pages.Overview
+namespace Attendance.Pages.Category
 {
     public class IndexModel : PageModel
     {
-        private readonly Attendance.Models.OverviewContext _context;
+        private readonly Attendance.Models.CategoryContext _context;
 
-        public IndexModel(Attendance.Models.OverviewContext context)
+        public IndexModel(Attendance.Models.CategoryContext context)
         {
             _context = context;
         }
-        
-        public IList<Attendance.Models.Category> Category { get; set; }
+
+        public IList<Attendance.Models.Category> Category { get;set; }
 
         public async Task OnGetAsync()
         {

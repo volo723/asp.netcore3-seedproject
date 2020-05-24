@@ -2,9 +2,9 @@
 
 namespace Attendance.Models
 {
-    public class CategoryContext : DbContext
+    public class OverviewContext : DbContext
     {        
-        public CategoryContext(DbContextOptions<CategoryContext> options)
+        public OverviewContext(DbContextOptions<OverviewContext> options)
             : base(options)
         {
 

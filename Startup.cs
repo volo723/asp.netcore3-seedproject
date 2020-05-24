@@ -27,7 +27,10 @@ namespace Attendance
         {
             services.AddRazorPages();
 
-            services.AddDbContext<CategoryContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AttendanceContext")));
+            services.AddDbContext<OverviewContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AttendanceContext")));
+
+            services.AddDbContext<CategoryContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("AttendanceContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
