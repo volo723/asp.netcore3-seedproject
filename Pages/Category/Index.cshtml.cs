@@ -11,9 +11,9 @@ namespace Attendance.Pages.Category
 {
     public class IndexModel : PageModel
     {
-        private readonly Attendance.Models.CategoryContext _context;
+        private readonly Attendance.Models.AttendanceContext _context;
 
-        public IndexModel(Attendance.Models.CategoryContext context)
+        public IndexModel(Attendance.Models.AttendanceContext context)
         {
             _context = context;
         }

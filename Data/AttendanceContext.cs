@@ -14,5 +14,6 @@ namespace Attendance.Models
         }
 
         public DbSet<Attendance.Models.QuestionPool> QuestionPoolNew { get; set; }
+        public DbSet<Attendance.Models.Category> Category { get; set; }
     }
 }

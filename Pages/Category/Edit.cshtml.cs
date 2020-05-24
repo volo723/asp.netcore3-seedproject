@@ -12,9 +12,9 @@ namespace Attendance.Pages.Category
 {
     public class EditModel : PageModel
     {
-        private readonly Attendance.Models.CategoryContext _context;
+        private readonly Attendance.Models.AttendanceContext _context;
 
-        public EditModel(Attendance.Models.CategoryContext context)
+        public EditModel(Attendance.Models.AttendanceContext context)
         {
             _context = context;
         }

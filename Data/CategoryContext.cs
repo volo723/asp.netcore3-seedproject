@@ -13,6 +13,6 @@ namespace Attendance.Models
         {
         }
 
-        public DbSet<Attendance.Models.Category> Category { get; set; }
+        
     }
 }

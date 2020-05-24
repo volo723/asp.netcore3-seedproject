@@ -11,9 +11,9 @@ namespace Attendance.Pages.Category
 {
     public class DetailsModel : PageModel
     {
-        private readonly Attendance.Models.CategoryContext _context;
+        private readonly Attendance.Models.AttendanceContext _context;
 
-        public DetailsModel(Attendance.Models.CategoryContext context)
+        public DetailsModel(Attendance.Models.AttendanceContext context)
         {
             _context = context;
         }
