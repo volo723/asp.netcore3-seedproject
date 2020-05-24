@@ -1,7 +1,7 @@
-﻿@model Attendance.Pages.Overview.IndexModel
+﻿@model Attendance.Pages.Category.IndexModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
-<h2>Categoris</h2>
+<h3>Categoris</h3>
 
 <table class="table">
     <thead>
@@ -12,7 +12,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Category[0].CategoryDescription)
             </th>
-            @*<th></th>*@
         </tr>
     </thead>
     <tbody>
@@ -24,21 +23,26 @@
                 </td>
                 <td class="app-td">
                     @Html.DisplayFor(modelItem => item.CategoryDescription)
-                </td>
-                @*<td class="app-td">
-                    <a asp-page="./Edit" asp-route-id="@item.CategoryID">
-                        <i class="material-icons" style="font-size:20px;color:black">edit</i>
-                    </a> |
-                    <a asp-page="./Details" asp-route-id="@item.CategoryID" class="m-1">
-                        <i class='far fa-eye' style='font-size:20px;color:black'></i>
-                    </a> |
-                    <a asp-page="./Delete" asp-route-id="@item.CategoryID">
-                        <i class="material-icons" style="font-size:20px;color:black">delete_forever</i>
-                    </a>
-                </td>*@
+                </td>                
             </tr>
         }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.Category.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Category.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.Category.PageIndex - 1)"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.Category.PageIndex + 1)"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>
 
 

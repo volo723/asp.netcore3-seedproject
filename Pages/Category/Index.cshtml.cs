@@ -18,11 +18,20 @@ namespace Attendance.Pages.Category
             _context = context;
         }
 
-        public IList<Attendance.Models.Category> Category { get;set; }
+        public PaginatedList<Attendance.Models.Category> Category { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int? pageIndex)
         {
-            Category = await _context.Category.ToListAsync();
+            IQueryable<Attendance.Models.Category> categoryIQ = from s in _context.Category
+                                                                select s;
+
+            categoryIQ = categoryIQ.Where(cat => !cat.CategoryCode.Trim().Equals("") && !cat.CategoryDescription.Trim().Equals(""));
+
+            int pageSize = 10;
+            Category = await PaginatedList<Attendance.Models.Category>.CreateAsync(
+                categoryIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
+
+            //Category = await _context.Category.ToListAsync();
         }
     }
 }

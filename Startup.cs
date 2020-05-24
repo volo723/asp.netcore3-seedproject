@@ -31,6 +31,9 @@ namespace Attendance
 
             services.AddDbContext<CategoryContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("AttendanceContext")));
+
+            services.AddDbContext<AttendanceContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("AttendanceContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
