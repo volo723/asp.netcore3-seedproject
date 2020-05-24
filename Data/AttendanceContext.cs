@@ -13,6 +13,6 @@ namespace Attendance.Models
         {
         }
 
-        public DbSet<Attendance.Models.QuestionPool> QuestionPool { get; set; }
+        public DbSet<Attendance.Models.QuestionPool> QuestionPoolNew { get; set; }
     }
 }

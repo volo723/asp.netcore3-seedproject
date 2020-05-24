@@ -77,8 +77,8 @@ th {
     height: 35px;
 }
 
-th.control {
-    width: 120px;
+td.control {
+    min-width: 120px;
 }
 
 td.app-td{

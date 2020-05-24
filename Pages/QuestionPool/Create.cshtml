@@ -1,0 +1,44 @@
+﻿@page
+@model Attendance.Pages.QuestionPool.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>QuestionPool</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="QuestionPool.questionid" class="control-label"></label>
+                <input asp-for="QuestionPool.questionid" class="form-control" />
+                <span asp-validation-for="QuestionPool.questionid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QuestionPool.questioncode" class="control-label"></label>
+                <input asp-for="QuestionPool.questioncode" class="form-control" />
+                <span asp-validation-for="QuestionPool.questioncode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QuestionPool.question" class="control-label"></label>
+                <input asp-for="QuestionPool.question" class="form-control" />
+                <span asp-validation-for="QuestionPool.question" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

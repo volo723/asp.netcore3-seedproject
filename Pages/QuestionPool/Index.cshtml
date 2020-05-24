@@ -1,0 +1,65 @@
+﻿@page
+@model Attendance.Pages.QuestionPool.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.QuestionPool[0].questioncode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QuestionPool[0].question)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.QuestionPool)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.questioncode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.question)
+                </td>
+                <td class="control">
+                    <a asp-page="./Edit" asp-route-id="@item.questionid">
+                        <i class="material-icons" style="font-size:20px;color:black">edit</i>
+                    </a> |
+                    <a asp-page="./Details" asp-route-id="@item.questionid">
+                        <i class='far fa-eye' style='font-size:20px;color:black'></i>
+                    </a> |
+                    <a asp-page="./Delete" asp-route-id="@item.questionid">
+                        <i class="material-icons" style="font-size:20px;color:black">delete_forever</i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.QuestionPool.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.QuestionPool.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.QuestionPool.PageIndex - 1)"
+   class="btn btn-primary @prevDisabled">
+    Prev
+</a>
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.QuestionPool.PageIndex + 1)"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>
