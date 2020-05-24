@@ -10,6 +10,6 @@ namespace Attendance.Models
 
         }
 
-        public DbSet<Category> Category { get; set; }
+       
     }
 }

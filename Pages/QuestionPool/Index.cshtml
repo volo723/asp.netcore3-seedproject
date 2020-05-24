@@ -26,13 +26,13 @@
         @foreach (var item in Model.QuestionPool)
         {
             <tr>
-                <td>
+                <td class="app-td">
                     @Html.DisplayFor(modelItem => item.questioncode)
                 </td>
-                <td>
+                <td class="app-td">
                     @Html.DisplayFor(modelItem => item.question)
                 </td>
-                <td class="control">
+                <td class="app-td control">
                     <a asp-page="./Edit" asp-route-id="@item.questionid">
                         <i class="material-icons" style="font-size:20px;color:black">edit</i>
                     </a> |

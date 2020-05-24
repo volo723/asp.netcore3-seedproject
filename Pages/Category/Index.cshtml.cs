@@ -27,7 +27,7 @@ namespace Attendance.Pages.Category
 
             categoryIQ = categoryIQ.Where(cat => !cat.CategoryCode.Trim().Equals("") && !cat.CategoryDescription.Trim().Equals(""));
 
-            int pageSize = 10;
+            int pageSize = Attendance.Data.Global.PageSize;
             Category = await PaginatedList<Attendance.Models.Category>.CreateAsync(
                 categoryIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
 

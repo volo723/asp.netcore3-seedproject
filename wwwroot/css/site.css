@@ -78,7 +78,7 @@ th {
 }
 
 td.control {
-    min-width: 120px;
+    width: 120px;
 }
 
 td.app-td{

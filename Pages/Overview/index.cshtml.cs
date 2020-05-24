@@ -11,9 +11,9 @@ namespace Attendance.Pages.Overview
 {
     public class IndexModel : PageModel
     {
-        private readonly Attendance.Models.OverviewContext _context;
+        private readonly Attendance.Models.AttendanceContext _context;
 
-        public IndexModel(Attendance.Models.OverviewContext context)
+        public IndexModel(Attendance.Models.AttendanceContext context)
         {
             _context = context;
         }

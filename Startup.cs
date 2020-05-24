@@ -27,11 +27,6 @@ namespace Attendance
         {
             services.AddRazorPages();
 
-            services.AddDbContext<OverviewContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AttendanceContext")));
-
-            services.AddDbContext<CategoryContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("AttendanceContext")));
-
             services.AddDbContext<AttendanceContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("AttendanceContext")));
         }

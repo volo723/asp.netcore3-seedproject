@@ -27,7 +27,7 @@ namespace Attendance.Pages.QuestionPool
 
             iq = iq.Where(item => !item.questioncode.Trim().Equals("") && !item.question.Trim().Equals(""));
 
-            int pageSize = 10;
+            int pageSize = Attendance.Data.Global.PageSize;
             QuestionPool = await PaginatedList<Attendance.Models.QuestionPool>.CreateAsync(
                 iq.AsNoTracking(), pageIndex ?? 1, pageSize);
 
