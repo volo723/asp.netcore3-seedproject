@@ -89,3 +89,9 @@ td.app-td{
 .btn.icon-btn{
     padding: 10px;
 }
+
+.app-ifr{
+    width: 100%;
+    height: 94%;
+    border: 0px;
+}

@@ -1,0 +1,69 @@
+﻿@page
+@model Attendance.Pages.Qpool.IndexModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Index</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body style="margin-bottom: 0px !important">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.QuestionPool[0].questioncode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.QuestionPool[0].question)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.QuestionPool)
+            {
+                <tr>
+                    <td class="app-td">
+                        @Html.DisplayFor(modelItem => item.questioncode)
+                    </td>
+                    <td class="app-td">
+                        @Html.DisplayFor(modelItem => item.question)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @{
+        var prevDisabled = !Model.QuestionPool.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.QuestionPool.HasNextPage ? "disabled" : "";
+    }
+
+    <a asp-page="./Index"
+       asp-route-pageIndex="@(Model.QuestionPool.PageIndex - 1)"
+       class="btn btn-primary @prevDisabled">
+        Prev
+    </a>
+    <a asp-page="./Index"
+       asp-route-pageIndex="@(Model.QuestionPool.PageIndex + 1)"
+       class="btn btn-primary @nextDisabled">
+        Next
+    </a>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+</body>
+</html>
+
+

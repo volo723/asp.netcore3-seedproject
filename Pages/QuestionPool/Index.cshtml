@@ -2,10 +2,10 @@
 @model Attendance.Pages.QuestionPool.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Question Pool";
 }
 
-<h1>Index</h1>
+<h1>Question Pool</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -36,7 +36,7 @@
                     <a asp-page="./Edit" asp-route-id="@item.questionid">
                         <i class="material-icons" style="font-size:20px;color:black">edit</i>
                     </a> |
-                    <a asp-page="./Details" asp-route-id="@item.questionid">
+                    <a asp-page="./Details" asp-route-id="@item.questionid" class="m-1">
                         <i class='far fa-eye' style='font-size:20px;color:black'></i>
                     </a> |
                     <a asp-page="./Delete" asp-route-id="@item.questionid">
