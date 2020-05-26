@@ -11,8 +11,22 @@
 <h2>Overview</h2>
 
 <div class="row p-3">
-    <div class="col-sm-4">
-        <h4>Categories</h4>
+    <div class="col-sm-4">        
+        <div class="row px-3 d-flex justify-content-between">
+            <div>
+                <h4>Categories @Model.CurrentFilterCategory</h4>
+            </div>
+            <form asp-page="./Index" method="get">
+                <div class="input-group">
+                    <input type="text" name="SearchCategory" value="@Model.CurrentFilterCategory" class="form-control" placeholder="Search...">
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
         @*<partial name="_DisplayCategoryPartial" />*@
         <table class="table" border="1">
             <thead>
@@ -48,18 +62,36 @@
         <a asp-page="./Index"
            asp-route-pageIndex="@(Model.Category.PageIndex - 1)"
            asp-route-qPageIndex="@(Model.QuestionPool.PageIndex)"
+           asp-route-currentFilterCategory="@Model.CurrentFilterCategory"
+           asp-route-currentFilterQuestionPool="@Model.CurrentFilterQuestionPool"
            class="btn btn-primary @prevDisabled">
             Prev
         </a>
         <a asp-page="./Index"
            asp-route-pageIndex="@(Model.Category.PageIndex + 1)"
            asp-route-qPageIndex="@(Model.QuestionPool.PageIndex)"
+           asp-route-currentFilterCategory="@Model.CurrentFilterCategory"
+           asp-route-currentFilterQuestionPool="@Model.CurrentFilterQuestionPool"
            class="btn btn-primary @nextDisabled">
             Next
         </a>
     </div>
-    <div class="col-sm-4">
-        <h4>SIRE Question Pool</h4>
+    <div class="col-sm-8">        
+        <div class="row px-3 d-flex justify-content-between">
+            <div>
+                <h4>SIRE Question Pool</h4>
+            </div>
+            <form asp-page="./Index" method="get">
+                <div class="input-group">
+                    <input type="text" name="SearchQuestionPool" value="@Model.CurrentFilterQuestionPool" class="form-control" placeholder="Search...">
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
         <table class="table" border="1">
             <thead>
                 <tr>
@@ -68,6 +100,15 @@
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.QuestionPool[0].question)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.QuestionPool[0].CategoryID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.QuestionPool[0].CategoryCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.QuestionPool[0].Origin)
                     </th>
                 </tr>
             </thead>
@@ -81,6 +122,15 @@
                         <td class="app-td">
                             @Html.DisplayFor(modelItem => item.question)
                         </td>
+                        <td class="app-td">
+                            @Html.DisplayFor(modelItem => item.CategoryID)
+                        </td>
+                        <td class="app-td">
+                            @Html.DisplayFor(modelItem => item.CategoryCode)
+                        </td>
+                        <td class="app-td">
+                            @Html.DisplayFor(modelItem => item.Origin)
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -93,17 +143,21 @@
         <a asp-page="./Index"
            asp-route-pageIndex="@(Model.Category.PageIndex)"
            asp-route-qPageIndex="@(Model.QuestionPool.PageIndex - 1)"
+           asp-route-currentFilterCategory="@Model.CurrentFilterCategory"
+           asp-route-currentFilterQuestionPool="@Model.CurrentFilterQuestionPool"
            class="btn btn-primary @prevDisabled1">
             Prev
         </a>
         <a asp-page="./Index"
            asp-route-pageIndex="@(Model.Category.PageIndex)"
            asp-route-qPageIndex="@(Model.QuestionPool.PageIndex + 1)"
+           asp-route-currentFilterCategory="@Model.CurrentFilterCategory"
+           asp-route-currentFilterQuestionPool="@Model.CurrentFilterQuestionPool"
            class="btn btn-primary @nextDisabled1">
             Next
         </a>
     </div>
-    <div class="col-sm-4">
+    @*<div class="col-sm-4">
         <h4>Management Question Pool</h4>
         <table class="table" border="1">
             <thead>
@@ -147,6 +201,6 @@
            class="btn btn-primary @nextDisabled2">
             Next
         </a>
-    </div>
+    </div>*@
 </div>
 
