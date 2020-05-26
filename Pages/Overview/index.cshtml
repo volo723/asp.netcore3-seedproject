@@ -1,6 +1,5 @@
 ﻿@page
-@*@model Attendance.Pages.Overview.IndexModel*@
-@model Attendance.Pages.Category.IndexModel
+@model Attendance.Pages.Overview.IndexModel
 
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
@@ -8,24 +7,146 @@
     ViewData["Title"] = "Overview";
 }
 
-<h1>Overview</h1>
+<br/>
+<h2>Overview</h2>
 
 <div class="row p-3">
-    <div class="col-sm-4 border">
-        @*@Html.Partial("_DisplayCategoryPartial");*@
+    <div class="col-sm-4">
         <h4>Categories</h4>
-        <partial name="_DisplayCategoryPartial" />
+        @*<partial name="_DisplayCategoryPartial" />*@
+        <table class="table" border="1">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Category[0].CategoryCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Category[0].CategoryDescription)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Category)
+                {
+                    <tr>
+                        <td class="app-td">
+                            @Html.DisplayFor(modelItem => item.CategoryCode)
+                        </td>
+                        <td class="app-td">
+                            @Html.DisplayFor(modelItem => item.CategoryDescription)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @{
+            var prevDisabled = !Model.Category.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.Category.HasNextPage ? "disabled" : "";
+        }
+
+        <a asp-page="./Index"
+           asp-route-pageIndex="@(Model.Category.PageIndex - 1)"
+           asp-route-qPageIndex="@(Model.QuestionPool.PageIndex)"
+           class="btn btn-primary @prevDisabled">
+            Prev
+        </a>
+        <a asp-page="./Index"
+           asp-route-pageIndex="@(Model.Category.PageIndex + 1)"
+           asp-route-qPageIndex="@(Model.QuestionPool.PageIndex)"
+           class="btn btn-primary @nextDisabled">
+            Next
+        </a>
     </div>
-    <div class="col-sm-4 border">
-        @*<iframe src="QuestionPool" width="100%" height="100%"></iframe>*@
+    <div class="col-sm-4">
         <h4>SIRE Question Pool</h4>
-        <iframe src="Qpool" class="app-ifr"></iframe>
+        <table class="table" border="1">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.QuestionPool[0].questioncode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.QuestionPool[0].question)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.QuestionPool)
+                {
+                    <tr>
+                        <td class="app-td">
+                            @Html.DisplayFor(modelItem => item.questioncode)
+                        </td>
+                        <td class="app-td">
+                            @Html.DisplayFor(modelItem => item.question)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @{
+            var prevDisabled1 = !Model.QuestionPool.HasPreviousPage ? "disabled" : "";
+            var nextDisabled1 = !Model.QuestionPool.HasNextPage ? "disabled" : "";
+        }
+
+        <a asp-page="./Index"
+           asp-route-pageIndex="@(Model.Category.PageIndex)"
+           asp-route-qPageIndex="@(Model.QuestionPool.PageIndex - 1)"
+           class="btn btn-primary @prevDisabled1">
+            Prev
+        </a>
+        <a asp-page="./Index"
+           asp-route-pageIndex="@(Model.Category.PageIndex)"
+           asp-route-qPageIndex="@(Model.QuestionPool.PageIndex + 1)"
+           class="btn btn-primary @nextDisabled1">
+            Next
+        </a>
     </div>
-    <div class="col-sm-4 border">
+    <div class="col-sm-4">
         <h4>Management Question Pool</h4>
-        <iframe src="Qpool" class="app-ifr"></iframe>
-        @*<partial name="/Pages/QuestionPoolPartial/Index.cshtml"/>*@
+        <table class="table" border="1">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.QuestionPool[0].questioncode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.QuestionPool[0].question)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.QuestionPool)
+                {
+                    <tr>
+                        <td class="app-td">
+                            @Html.DisplayFor(modelItem => item.questioncode)
+                        </td>
+                        <td class="app-td">
+                            @Html.DisplayFor(modelItem => item.question)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @{
+            var prevDisabled2 = !Model.QuestionPool.HasPreviousPage ? "disabled" : "";
+            var nextDisabled2 = !Model.QuestionPool.HasNextPage ? "disabled" : "";
+        }
+
+        <a asp-page="./Index"
+           asp-route-pageIndex="@(Model.Category.PageIndex)"
+           asp-route-qPageIndex="@(Model.QuestionPool.PageIndex - 1)"
+           class="btn btn-primary @prevDisabled2">
+            Prev
+        </a>
+        <a asp-page="./Index"
+           asp-route-pageIndex="@(Model.Category.PageIndex)"
+           asp-route-qPageIndex="@(Model.QuestionPool.PageIndex + 1)"
+           class="btn btn-primary @nextDisabled2">
+            Next
+        </a>
     </div>
 </div>
 
-@*<partial name="_DisplayCategoryPartial" model="@Model.Category"/>*@

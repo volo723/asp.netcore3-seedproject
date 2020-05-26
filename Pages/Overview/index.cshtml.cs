@@ -17,12 +17,31 @@ namespace Attendance.Pages.Overview
         {
             _context = context;
         }
-        
-        public IList<Attendance.Models.Category> Category { get; set; }
 
-        public async Task OnGetAsync()
+        public PaginatedList<Attendance.Models.Category> Category { get; set; }
+        public PaginatedList<Attendance.Models.QuestionPool> QuestionPool { get; set; }
+
+        public async Task OnGetAsync(int? pageIndex, int? qPageIndex)
         {
-            Category = await _context.Category.ToListAsync();
+            IQueryable<Attendance.Models.Category> categoryIQ = from s in _context.Category
+                                                                select s;
+
+            categoryIQ = categoryIQ.Where(cat => !cat.CategoryCode.Trim().Equals("") && !cat.CategoryDescription.Trim().Equals(""));
+
+            int pageSize = Attendance.Data.Global.PageSize;
+            Category = await PaginatedList<Attendance.Models.Category>.CreateAsync(
+                categoryIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
+
+            ////////// Question Pool ///////////
+            IQueryable<Attendance.Models.QuestionPool> iq = from s in _context.QuestionPoolNew
+                                                            select s;
+
+            iq = iq.Where(item => !item.questioncode.Trim().Equals("") && !item.question.Trim().Equals(""));
+
+            QuestionPool = await PaginatedList<Attendance.Models.QuestionPool>.CreateAsync(
+                iq.AsNoTracking(), qPageIndex ?? 1, pageSize);
+
+            //Category = await _context.Category.ToListAsync();
         }
     }
 }
