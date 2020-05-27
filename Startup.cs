@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Attendance.Models;
 using Microsoft.EntityFrameworkCore;
+using Attendance.Services;
 
 namespace Attendance
 {
@@ -29,6 +30,8 @@ namespace Attendance
 
             services.AddDbContext<AttendanceContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("AttendanceContext")));
+
+            services.AddSingleton<IBriefcaseRepository, BriefcaseRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

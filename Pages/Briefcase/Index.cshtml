@@ -1,0 +1,127 @@
+﻿@page
+@model Attendance.Pages.Briefcase.IndexModel
+
+@{
+    ViewData["Title"] = "Briefcase";
+    ViewData["Menu"] = "briefcase";
+}
+
+    <div>
+        <div class="col-sm-4">
+            <h1>Briefcase</h1>
+        </div>
+        <div class="col-sm-4">
+
+        </div>
+        <div class="col-sm-4">
+            @if (TempData["message"] != null)
+            {
+
+                <div class="alert alert-info">
+                    <strong>@TempData["result"]</strong> @TempData["message"]
+                </div>
+
+            }
+        </div>
+        </div>
+
+        <div class="row p-3">
+            <div class="col-sm-6">
+                <div>
+                    <h4>Questionnaire Templates</h4>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.VIQInfoModel[0].Title)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.VIQInfoModel[0].Author)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.VIQInfoModel[0].RegistrationDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.VIQInfoModel[0].NumOfQuestions)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.VIQInfoModel)
+                        {
+                            <tr>
+                                <td class="app-td">
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td class="app-td">
+                                    @Html.DisplayFor(modelItem => item.Author)
+                                </td>
+                                <td class="app-td">
+                                    @Html.DisplayFor(modelItem => item.RegistrationDate)
+                                </td>
+                                <td class="app-td">
+                                    @Html.DisplayFor(modelItem => item.NumOfQuestions)
+                                </td>
+                                <td class="app-td">
+                                    <a asp-page="./index"
+                                       asp-route-action="transfer"
+                                       asp-route-alerttype=@Model.AlertType 
+                                       asp-route-id="@item.QId">Transfer</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-6">
+                <div>
+                    <h4>Registered Questionnaires</h4>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.VIQInfoModel[0].Title)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.VIQInfoModel[0].Author)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.VIQInfoModel[0].RegistrationDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.VIQInfoModel[0].NumOfQuestions)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.RegisteredQuestionnaires)
+                        {
+                            <tr>
+                                <td class="app-td">
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td class="app-td">
+                                    @Html.DisplayFor(modelItem => item.Author)
+                                </td>
+                                <td class="app-td">
+                                    @Html.DisplayFor(modelItem => item.RegistrationDate)
+                                </td>
+                                <td class="app-td">
+                                    @Html.DisplayFor(modelItem => item.NumOfQuestions)
+                                </td>
+                                <td class="app-td">
+                                    <a asp-page="./index"
+                                       asp-route-action="remove"
+                                       asp-route-alerttype=@Model.AlertType 
+                                       asp-route-id="@item.QId" class="text-danger">Remove</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
