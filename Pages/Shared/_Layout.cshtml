@@ -22,19 +22,51 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link active" asp-area="" asp-page="/Index">Home</a>
+                            @{
+                                var homeActive = "";
+                                var overviewActive = "";
+                                var briefcaseActive = "";
+                                var categoryActive = "";
+                                var questionPoolActive = "";
+                                var viqinfoActive = "";
+                                var privacyActive = "";
+
+                                if (ViewData["Menu"].ToString() == "home")
+                                    homeActive = "active";
+                                else if (ViewData["Menu"].ToString() == "overview")
+                                    overviewActive = "active";
+                                else if (ViewData["Menu"].ToString() == "briefcase")
+                                    briefcaseActive = "active";
+                                else if (ViewData["Menu"].ToString() == "category")
+                                    categoryActive = "active";
+                                else if (ViewData["Menu"].ToString() == "questionPool")
+                                    questionPoolActive = "active";
+                                else if (ViewData["Menu"].ToString() == "viqinfo")
+                                    viqinfoActive = "active";
+                                else if (ViewData["Menu"].ToString() == "privacy")
+                                    privacyActive = "active";
+                            }
+
+                            <a class="nav-link  @homeActive" asp-area="" asp-page="/Index">Home</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link @overviewActive" asp-area="" asp-page="/Overview/Index">Overview</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/Overview/Index">Overview</a>
+                            <a class="nav-link @briefcaseActive" asp-area="" asp-page="/Briefcase/Index">Briefcase</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/Category/Index">Category</a>
+                            <a class="nav-link @categoryActive" asp-area="" asp-page="/Category/Index">Category</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/QuestionPool/Index">QuestionPool</a>
+                            <a class="nav-link @questionPoolActive" asp-area="" asp-page="/QuestionPool/Index">QuestionPool</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/Privacy">Privacy</a>
+                            <a class="nav-link @viqinfoActive" asp-area="" asp-page="/VIQInfo/Index">VIQInfo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @privacyActive" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
                     </ul>
                 </div>

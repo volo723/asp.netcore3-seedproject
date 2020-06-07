@@ -7,6 +7,6 @@ namespace Attendance.Data
 {
     public class Global
     {
-        public static int PageSize = 10;
+        public static int PageSize = 16;
     }
 }

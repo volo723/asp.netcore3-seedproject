@@ -5,16 +5,17 @@
 
 @{
     ViewData["Title"] = "Overview";
+    ViewData["Menu"] = "overview";
 }
 
-<br/>
-<h2>Overview</h2>
+@*<br/>
+<h2>Overview</h2>*@
 
 <div class="row p-3">
-    <div class="col-sm-4">        
+    <div class="col-sm-4">
         <div class="row px-3 d-flex justify-content-between">
             <div>
-                <h4>Categories @Model.CurrentFilterCategory</h4>
+                <h5>Categories</h5>
             </div>
             <form asp-page="./Index" method="get">
                 <div class="input-group">
@@ -28,6 +29,11 @@
             </form>
         </div>
         @*<partial name="_DisplayCategoryPartial" />*@
+    <form asp-page="./Index" method="get" id="formCategory">
+        <input type="hidden" name="pageIndex" value="@Model.Category.PageIndex" />
+        <input type="hidden" name="currentFilterCategory" value="@Model.CurrentFilterCategory" />
+        <input type="hidden" name="categoryNewID" id="categoryNewID" value=""/>
+
         <table class="table" border="1">
             <thead>
                 <tr>
@@ -42,7 +48,8 @@
             <tbody>
                 @foreach (var item in Model.Category)
                 {
-                    <tr>
+                    var className = @item.CategoryNewID == @Model.SelectedCategoryNewID ? "selected" : "sel";
+                    <tr class="@className" onclick="onSelectCategory('@item.CategoryNewID')">
                         <td class="app-td">
                             @Html.DisplayFor(modelItem => item.CategoryCode)
                         </td>
@@ -53,7 +60,7 @@
                 }
             </tbody>
         </table>
-
+    </form>
         @{
             var prevDisabled = !Model.Category.HasPreviousPage ? "disabled" : "";
             var nextDisabled = !Model.Category.HasNextPage ? "disabled" : "";
@@ -62,145 +69,219 @@
         <a asp-page="./Index"
            asp-route-pageIndex="@(Model.Category.PageIndex - 1)"
            asp-route-qPageIndex="@(Model.QuestionPool.PageIndex)"
+           asp-route-mngQPageIndex="@(Model.MngQuestionPool.PageIndex)"
            asp-route-currentFilterCategory="@Model.CurrentFilterCategory"
            asp-route-currentFilterQuestionPool="@Model.CurrentFilterQuestionPool"
+           asp-route-currentFilterMngQuestionPool="@Model.CurrentFilterMngQuestionPool"
            class="btn btn-primary @prevDisabled">
             Prev
         </a>
         <a asp-page="./Index"
            asp-route-pageIndex="@(Model.Category.PageIndex + 1)"
            asp-route-qPageIndex="@(Model.QuestionPool.PageIndex)"
+           asp-route-mngQPageIndex="@(Model.MngQuestionPool.PageIndex)"
            asp-route-currentFilterCategory="@Model.CurrentFilterCategory"
            asp-route-currentFilterQuestionPool="@Model.CurrentFilterQuestionPool"
+           asp-route-currentFilterMngQuestionPool="@Model.CurrentFilterMngQuestionPool"
            class="btn btn-primary @nextDisabled">
             Next
         </a>
     </div>
-    <div class="col-sm-8">        
-        <div class="row px-3 d-flex justify-content-between">
-            <div>
-                <h4>SIRE Question Pool</h4>
-            </div>
-            <form asp-page="./Index" method="get">
-                <div class="input-group">
-                    <input type="text" name="SearchQuestionPool" value="@Model.CurrentFilterQuestionPool" class="form-control" placeholder="Search...">
-                    <div class="input-group-append">
-                        <button class="btn btn-secondary" type="submit">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
+    <div class="col-sm-8">
+        <div class="col">
+            <div class="row px-3 d-flex justify-content-between">
+                <div>
+                    <h5>SIRE Question Pool</h5>
                 </div>
-            </form>
+                <div class="row px-3">
+                    @{
+                        var prevDisabled1 = !Model.QuestionPool.HasPreviousPage ? "disabled" : "";
+                        var nextDisabled1 = !Model.QuestionPool.HasNextPage ? "disabled" : "";
+                    }
+
+                    <a asp-page="./Index"
+                       asp-route-pageIndex="@(Model.Category.PageIndex)"
+                       asp-route-qPageIndex="@(Model.QuestionPool.PageIndex - 1)"
+                       asp-route-mngQPageIndex="@(Model.MngQuestionPool.PageIndex)"
+                       asp-route-selectedCategoryNewID="@Model.SelectedCategoryNewID"
+                       asp-route-currentFilterCategory="@Model.CurrentFilterCategory"
+                       asp-route-currentFilterQuestionPool="@Model.CurrentFilterQuestionPool"
+                       asp-route-currentFilterMngQuestionPool="@Model.CurrentFilterMngQuestionPool"
+                       class="align-self-center @prevDisabled1">
+                        <i class="fa fa-arrow-circle-left @prevDisabled1"></i>
+                    </a>
+                    <a asp-page="./Index"
+                       asp-route-pageIndex="@(Model.Category.PageIndex)"
+                       asp-route-qPageIndex="@(Model.QuestionPool.PageIndex + 1)"
+                       asp-route-mngQPageIndex="@(Model.MngQuestionPool.PageIndex)"
+                       asp-route-selectedCategoryNewID="@Model.SelectedCategoryNewID"
+                       asp-route-currentFilterCategory="@Model.CurrentFilterCategory"
+                       asp-route-currentFilterQuestionPool="@Model.CurrentFilterQuestionPool"
+                       asp-route-currentFilterMngQuestionPool="@Model.CurrentFilterMngQuestionPool"
+                       class="align-self-center ml-1 mr-3 @nextDisabled1">
+                        <i class="fa fa-arrow-circle-right @nextDisabled1"></i>
+                    </a>
+
+                    <form asp-page="./Index" method="get">
+                        <div class="input-group">
+                            <input type="hidden" name="pageIndex" value="@Model.Category.PageIndex" />
+                            <input type="text" name="SearchQuestionPool" value="@Model.CurrentFilterQuestionPool" class="form-control" placeholder="Search...">
+                            <input type="hidden" name="SelectedCategoryNewID" value="@Model.SelectedCategoryNewID" />
+                            <div class="input-group-append">
+                                <button class="btn btn-secondary" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                
+            </div>
+            <table class="table" border="1">
+                <thead>
+                    <tr>
+                        <th>
+                            QuestionCode
+                        </th>
+                        <th>
+                            Question
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.QuestionPool[0].CategoryID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.QuestionPool[0].CategoryCode)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.QuestionPool[0].Origin)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.QuestionPool)
+                    {
+                        <tr>
+                            <td class="app-td">
+                                @Html.DisplayFor(modelItem => item.questioncode)
+                            </td>
+                            <td class="app-td">
+                                @Html.DisplayFor(modelItem => item.question)
+                            </td>
+                            <td class="app-td">
+                                @Html.DisplayFor(modelItem => item.CategoryID)
+                            </td>
+                            <td class="app-td">
+                                @*@Html.DisplayFor(modelItem => item.CategoryCode)*@
+                            </td>
+                            <td class="app-td">
+                                @Html.DisplayFor(modelItem => item.Origin)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+           
         </div>
-        <table class="table" border="1">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.QuestionPool[0].questioncode)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.QuestionPool[0].question)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.QuestionPool[0].CategoryID)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.QuestionPool[0].CategoryCode)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.QuestionPool[0].Origin)
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.QuestionPool)
-                {
-                    <tr>
-                        <td class="app-td">
-                            @Html.DisplayFor(modelItem => item.questioncode)
-                        </td>
-                        <td class="app-td">
-                            @Html.DisplayFor(modelItem => item.question)
-                        </td>
-                        <td class="app-td">
-                            @Html.DisplayFor(modelItem => item.CategoryID)
-                        </td>
-                        <td class="app-td">
-                            @Html.DisplayFor(modelItem => item.CategoryCode)
-                        </td>
-                        <td class="app-td">
-                            @Html.DisplayFor(modelItem => item.Origin)
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        @{
-            var prevDisabled1 = !Model.QuestionPool.HasPreviousPage ? "disabled" : "";
-            var nextDisabled1 = !Model.QuestionPool.HasNextPage ? "disabled" : "";
-        }
 
-        <a asp-page="./Index"
-           asp-route-pageIndex="@(Model.Category.PageIndex)"
-           asp-route-qPageIndex="@(Model.QuestionPool.PageIndex - 1)"
-           asp-route-currentFilterCategory="@Model.CurrentFilterCategory"
-           asp-route-currentFilterQuestionPool="@Model.CurrentFilterQuestionPool"
-           class="btn btn-primary @prevDisabled1">
-            Prev
-        </a>
-        <a asp-page="./Index"
-           asp-route-pageIndex="@(Model.Category.PageIndex)"
-           asp-route-qPageIndex="@(Model.QuestionPool.PageIndex + 1)"
-           asp-route-currentFilterCategory="@Model.CurrentFilterCategory"
-           asp-route-currentFilterQuestionPool="@Model.CurrentFilterQuestionPool"
-           class="btn btn-primary @nextDisabled1">
-            Next
-        </a>
+        <div class="col">
+            <div class="row px-3 d-flex justify-content-between">
+                <div>
+                    <h5>Mangement Question Pool</h5>
+                </div>
+                <div class="row px-3">
+                    @{
+                        var prevDisabled2 = !Model.MngQuestionPool.HasPreviousPage ? "disabled" : "";
+                        var nextDisabled2 = !Model.MngQuestionPool.HasNextPage ? "disabled" : "";
+                    }
+
+                    <a asp-page="./Index"
+                       asp-route-pageIndex="@(Model.Category.PageIndex)"
+                       asp-route-qPageIndex="@(Model.QuestionPool.PageIndex)"
+                       asp-route-mngQPageIndex="@(Model.MngQuestionPool.PageIndex - 1)"
+                       asp-route-selectedCategoryNewID="@Model.SelectedCategoryNewID"
+                       asp-route-currentFilterCategory="@Model.CurrentFilterCategory"
+                       asp-route-currentFilterQuestionPool="@Model.CurrentFilterQuestionPool"
+                       asp-route-currentFilterMngQuestionPool="@Model.CurrentFilterMngQuestionPool"
+                       class="align-self-center @prevDisabled2">
+                        <i class="fa fa-arrow-circle-left @prevDisabled2"></i>
+                    </a>
+                    <a asp-page="./Index"
+                       asp-route-pageIndex="@(Model.Category.PageIndex)"
+                       asp-route-qPageIndex="@(Model.QuestionPool.PageIndex)"
+                       asp-route-mngQPageIndex="@(Model.MngQuestionPool.PageIndex + 1)"
+                       asp-route-selectedCategoryNewID="@Model.SelectedCategoryNewID"
+                       asp-route-currentFilterCategory="@Model.CurrentFilterCategory"
+                       asp-route-currentFilterQuestionPool="@Model.CurrentFilterQuestionPool"
+                       asp-route-currentFilterMngQuestionPool="@Model.CurrentFilterMngQuestionPool"
+                       class="align-self-center ml-1 mr-3 @nextDisabled2">
+                        <i class="fa fa-arrow-circle-right @nextDisabled2"></i>
+                    </a>
+
+                    <form asp-page="./Index" method="get">
+                        <div class="input-group">
+                            <input type="hidden" name="pageIndex" value="@Model.Category.PageIndex" />
+                            <input type="text" name="SearchMngQuestionPool" value="@Model.CurrentFilterMngQuestionPool" class="form-control" placeholder="Search...">
+                            <input type="hidden" name="SelectedCategoryNewID" value="@Model.SelectedCategoryNewID" />
+                            <div class="input-group-append">
+                                <button class="btn btn-secondary" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+               
+            </div>
+            <table class="table" border="1">
+                <thead>
+                    <tr>
+                        <th>
+                            QuestionCode
+                        </th>
+                        <th>
+                            Question
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.MngQuestionPool[0].CategoryID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.MngQuestionPool[0].CategoryCode)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.MngQuestionPool[0].Origin)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.MngQuestionPool)
+                    {
+                        <tr>
+                            <td class="app-td">
+                                @Html.DisplayFor(modelItem => item.questioncode)
+                            </td>
+                            <td class="app-td">
+                                @Html.DisplayFor(modelItem => item.question)
+                            </td>
+                            <td class="app-td">
+                                @Html.DisplayFor(modelItem => item.CategoryID)
+                            </td>
+                            <td class="app-td">
+                                @*@Html.DisplayFor(modelItem => item.CategoryCode)*@
+                            </td>
+                            <td class="app-td">
+                                
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-    @*<div class="col-sm-4">
-        <h4>Management Question Pool</h4>
-        <table class="table" border="1">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.QuestionPool[0].questioncode)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.QuestionPool[0].question)
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.QuestionPool)
-                {
-                    <tr>
-                        <td class="app-td">
-                            @Html.DisplayFor(modelItem => item.questioncode)
-                        </td>
-                        <td class="app-td">
-                            @Html.DisplayFor(modelItem => item.question)
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        @{
-            var prevDisabled2 = !Model.QuestionPool.HasPreviousPage ? "disabled" : "";
-            var nextDisabled2 = !Model.QuestionPool.HasNextPage ? "disabled" : "";
-        }
-
-        <a asp-page="./Index"
-           asp-route-pageIndex="@(Model.Category.PageIndex)"
-           asp-route-qPageIndex="@(Model.QuestionPool.PageIndex - 1)"
-           class="btn btn-primary @prevDisabled2">
-            Prev
-        </a>
-        <a asp-page="./Index"
-           asp-route-pageIndex="@(Model.Category.PageIndex)"
-           asp-route-qPageIndex="@(Model.QuestionPool.PageIndex + 1)"
-           class="btn btn-primary @nextDisabled2">
-            Next
-        </a>
-    </div>*@
 </div>
 
+<script type="text/javascript">
+    function onSelectCategory(categoryNewID) {
+        $("#categoryNewID").val(categoryNewID);
+        $("#formCategory").submit();
+    }
+</script>
