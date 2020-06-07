@@ -20,11 +20,17 @@ namespace Attendance.Pages.Overview
 
         public PaginatedList<Attendance.Models.Category> Category { get; set; }
         public PaginatedList<Attendance.Models.QuestionPool> QuestionPool { get; set; }
+        public PaginatedList<Attendance.Models.QuestionPool> MngQuestionPool { get; set; }
 
         public string CurrentFilterCategory { get; set; }
         public string CurrentFilterQuestionPool { get; set; }
+        public string CurrentFilterMngQuestionPool { get; set; }
 
-        public async Task OnGetAsync(int? pageIndex, int? qPageIndex, string currentFilterCategory, string currentFilterQuestionPool, string searchCategory, string searchQuestionPool)
+        public Guid SelectedCategoryNewID { get; set; }
+
+        public async Task OnGetAsync(int? pageIndex, int? qPageIndex, int? mngQPageIndex, Guid categoryNewID, Guid selectedCategoryNewID,
+            string currentFilterCategory, string currentFilterQuestionPool, string currentFilterMngQuestionPool,
+            string searchCategory, string searchQuestionPool, string searchMngQuestionPool)
         {
             if (searchCategory != null)
             {
@@ -50,10 +56,10 @@ namespace Attendance.Pages.Overview
             Category = await PaginatedList<Attendance.Models.Category>.CreateAsync(
                 categoryIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
 
-            ////////// Question Pool ///////////
-            if (searchQuestionPool != null)
+            ////////// SIRE Question Pool ///////////
+            if (searchQuestionPool != null || (categoryNewID != Guid.Empty && selectedCategoryNewID != Guid.Empty ))
             {
-                qPageIndex = 1;
+                qPageIndex = 1;                
             }
             else
             {
@@ -63,7 +69,21 @@ namespace Attendance.Pages.Overview
             IQueryable<Attendance.Models.QuestionPool> iq = from s in _context.QuestionPoolNew
                                                             select s;
 
-            iq = iq.Where(item => !item.questioncode.Trim().Equals("") && !item.question.Trim().Equals(""));
+            if( categoryNewID != Guid.Empty )
+            {
+                SelectedCategoryNewID = categoryNewID;
+            }
+            else
+            {
+                SelectedCategoryNewID = selectedCategoryNewID;
+
+                if (SelectedCategoryNewID == Guid.Empty &&  Category.Count > 0)
+                {
+                    SelectedCategoryNewID = Category.First().CategoryNewID;
+                }
+            }
+
+            iq = iq.Where(item => !item.questioncode.Trim().Equals("") && !item.question.Trim().Equals("") && item.CategoryNewID.Equals(SelectedCategoryNewID) && item.Origin > 0);
             if (!String.IsNullOrEmpty(searchQuestionPool))
             {
                 iq = iq.Where(s => s.CategoryCode.Equals(searchQuestionPool) 
@@ -73,8 +93,36 @@ namespace Attendance.Pages.Overview
                                        || s.question.ToLower().Contains(searchQuestionPool.ToLower()));
             }
 
+            int pageSize1 = Attendance.Data.Global.PageSize / 2;
             QuestionPool = await PaginatedList<Attendance.Models.QuestionPool>.CreateAsync(
-                iq.AsNoTracking(), qPageIndex ?? 1, pageSize);
+                iq.AsNoTracking(), qPageIndex ?? 1, pageSize1);
+
+            ////////// Management Question Pool ///////////
+            if (searchMngQuestionPool != null || categoryNewID != null)
+            {
+                mngQPageIndex = 1;
+            }
+            else
+            {
+                searchMngQuestionPool = currentFilterMngQuestionPool;
+            }
+            CurrentFilterMngQuestionPool = searchMngQuestionPool;
+            IQueryable<Attendance.Models.QuestionPool> mngiq = from s in _context.QuestionPoolNew
+                                                            select s;
+            
+            mngiq = mngiq.Where(item => !item.questioncode.Trim().Equals("") && !item.question.Trim().Equals("") && item.CategoryNewID.Equals(SelectedCategoryNewID) && item.Origin == 0);
+            if (!String.IsNullOrEmpty(searchMngQuestionPool))
+            {
+                mngiq = mngiq.Where(s => s.CategoryCode.Equals(searchMngQuestionPool)
+                                       || s.CategoryID.ToString().Equals(searchMngQuestionPool)
+                                       || s.questioncode.Equals(searchMngQuestionPool)
+                                       || s.Origin.ToString().Equals(searchMngQuestionPool)
+                                       || s.question.ToLower().Contains(searchMngQuestionPool.ToLower()));
+            }
+
+            int pageSize2 = Attendance.Data.Global.PageSize / 2;
+            MngQuestionPool = await PaginatedList<Attendance.Models.QuestionPool>.CreateAsync(
+                mngiq.AsNoTracking(), mngQPageIndex ?? 1, pageSize2);
 
             //Category = await _context.Category.ToListAsync();
         }

@@ -6,7 +6,7 @@
     ViewData["Menu"] = "briefcase";
 }
 
-    <div>
+    <div class="row p-3">
         <div class="col-sm-4">
             <h1>Briefcase</h1>
         </div>
@@ -16,14 +16,35 @@
         <div class="col-sm-4">
             @if (TempData["message"] != null)
             {
+                var alertType = "alert-info";
 
-                <div class="alert alert-info">
+                switch (Model.AlertType)
+                {
+                    case 0:
+                        alertType = "alert-info";
+                        break;
+                    case 1:
+                        alertType = "alert-success";
+                        break;
+                    case 2:
+                        alertType = "alert-warning";
+                        break;
+                    case 3:
+                        alertType = "alert-danger";
+                        break;
+                    case 4:
+                        alertType = "alert-primary";
+                        break;
+                }
+
+
+                <div class="alert @alertType mb-0">
                     <strong>@TempData["result"]</strong> @TempData["message"]
                 </div>
 
             }
         </div>
-        </div>
+    </div>
 
         <div class="row p-3">
             <div class="col-sm-6">
@@ -50,7 +71,7 @@
                     </thead>
                     <tbody>
                         @foreach (var item in Model.VIQInfoModel)
-                        {
+                {
                             <tr>
                                 <td class="app-td">
                                     @Html.DisplayFor(modelItem => item.Title)
@@ -67,7 +88,7 @@
                                 <td class="app-td">
                                     <a asp-page="./index"
                                        asp-route-action="transfer"
-                                       asp-route-alerttype=@Model.AlertType 
+                                       asp-route-alerttype=@Model.AlertType
                                        asp-route-id="@item.QId">Transfer</a>
                                 </td>
                             </tr>
@@ -99,7 +120,7 @@
                     </thead>
                     <tbody>
                         @foreach (var item in Model.RegisteredQuestionnaires)
-                        {
+            {
                             <tr>
                                 <td class="app-td">
                                     @Html.DisplayFor(modelItem => item.Title)
@@ -116,7 +137,7 @@
                                 <td class="app-td">
                                     <a asp-page="./index"
                                        asp-route-action="remove"
-                                       asp-route-alerttype=@Model.AlertType 
+                                       asp-route-alerttype=@Model.AlertType
                                        asp-route-id="@item.QId" class="text-danger">Remove</a>
                                 </td>
                             </tr>

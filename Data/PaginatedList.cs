@@ -13,7 +13,7 @@ namespace Attendance.Models
 
         public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
         {
-            PageIndex = pageIndex;
+            PageIndex = pageIndex;        
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
 
             this.AddRange(items);

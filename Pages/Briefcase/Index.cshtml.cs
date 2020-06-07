@@ -54,7 +54,7 @@ namespace Attendance.Pages.Briefcase
             }
             
             RegisteredQuestionnaires = _briefcaseRepository.GetRegisteredQuestionnaires();
-            AlertType = 1 - alerttype;
+            AlertType = ( alerttype + 1 ) % 5;
         }
     }
 }
